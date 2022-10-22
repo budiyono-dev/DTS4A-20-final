@@ -1,6 +1,7 @@
-export const ROUTES ={
-    LOGIN:"/",
-    HOME:"/home",
-    ALL_NEWS:"/allnews",
-    TOP_STORIES:"/topsotries"
+export const ROUTES = {
+    LOGIN: "/login",
+    HOME: "/",
+    ALL_NEWS: "/allnews",
+    TOP_STORIES: "/topsotries",
+    REGISTER: "/register"
 }

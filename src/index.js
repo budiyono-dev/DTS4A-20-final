@@ -1,27 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import store from "./app/store";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+// import stores from "./app/stores";
+// import store from "./app/store";
+
 import { Provider } from "react-redux";
-import { persistStore } from 'redux-persist';
-import { PersistGate } from 'redux-persist/integration/react';
-import { ThemeProvider } from "@mui/material";
-import { theme } from './pages/theme';
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
+import store from "./app/store";
 
-
-let persistor = persistStore(store)
-const root = ReactDOM.createRoot(document.getElementById('root'));
+let persistor = persistStore(store);
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <ThemeProvider theme={theme}>
+   <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
         <App />
-        </ThemeProvider>
       </PersistGate>
     </Provider>
+    
   </React.StrictMode>
 );
 
