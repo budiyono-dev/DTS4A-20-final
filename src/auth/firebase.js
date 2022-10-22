@@ -2,7 +2,6 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { useNavigate } from 'react-router-dom';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -19,36 +18,38 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const doLogin = async (email, password) => {
+const doLogin = async (userEmail, password) => {
     try {
         const userCredential = await signInWithEmailAndPassword(
             auth,
-            email,
+            userEmail,
             password
         );
-        return {msg: "ok" , user:userCredential.user};
+        const { displayName, email, phoneNumber, photoURL } = userCredential.user;
+        return {msg: "ok" , user:{ displayName, email, phoneNumber, photoURL }};
     } catch (error) {
         return {msg: "error", code:error.code};
     }
 };
-const doRegister = async (email, password) => {
+const doRegister = async (userEmail, password) => {
     try {
         const userCredential = await createUserWithEmailAndPassword(
             auth,
-            email,
+            userEmail,
             password
         );
-        return {msg: "ok" , user:userCredential.user};
+        const { displayName, email, phoneNumber, photoURL } = userCredential.user;
+        return {msg: "ok" , user:{ displayName, email, phoneNumber, photoURL }};
     } catch (error) {
-        return {msg: "error", code:error.code};;
+        console.log("errorrrrr")
+        return {msg: "error", code:error.code};
     }
 };
 
 const doLogout = async () => {
     try {
         await signOut(auth);
-        let user = null;
-        return {msg: "ok", user};
+        return {msg: "ok", code: null};
     } catch (error) {
         return {msg: "error", code:error.code};
     }

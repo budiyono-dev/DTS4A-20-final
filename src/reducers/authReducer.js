@@ -1,20 +1,21 @@
+import { createSlice } from '@reduxjs/toolkit'
 
-
-const INITIAL_STATE = {
-    is_authenticated: false,
-
+const initialState = {
+  user: null
 }
 
-const auth = (state = INITIAL_STATE, {type, payload}) => {
-  switch (type) {
+export const authSlice = createSlice({
+  name: 'auth',
+  initialState,
+  reducers: {
+    userLogin: (state, action) => {
+      state.user = action.payload
+    },
+    userLogout: () => initialState
+  },
+})
 
-    case "AUTH":
-      return { ...state, is_authenticated: payload}
+// Action creators are generated for each case reducer function
+export const { userLogin, userLogout } = authSlice.actions
 
-    default: 
-      return state
-  }
-}
-
-export default auth
-  
+export default authSlice.reducer

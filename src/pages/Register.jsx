@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { auth, doRegister } from '../auth/firebase';
+import { doRegister } from '../auth/firebase';
 import { Paper, TextField, Button, Typography } from '@mui/material';
 import { useNavigate, Link } from 'react-router-dom';
 import { ROUTES } from '../constant/routes';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import {useSelector} from "react-redux";
 
 const defaultUser = {
   email: '',
@@ -35,22 +35,26 @@ const loginBoxStye = {
 
 function Register() {
   const [user, setUser] = useState(defaultUser);
-  let navigate = useNavigate();
-  const [userAuth = user] = useAuthState(auth);
+  const navigate = useNavigate();
+  const userAuth = useSelector( state => state.auth.user);
+
   const handleRegister = async (e) => {
     e.preventDefault();
-    let verifiedUser = await doRegister(user.email, user.password);
-    if (verifiedUser) {
-      // save data to redux persist
-      navigate('/');
+    let resp = await doRegister(user.email, user.password);
+    if (resp.msg === "ok") {
+      navigate('/login');
     }
   };
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
+
   useEffect(() => {
-    console.log('check user');
-  }, []);
+      if(userAuth){
+          navigate("/")
+      }
+  }, [userAuth, navigate]);
+
   return (
     <>
       <form onSubmit={handleRegister} method="post">

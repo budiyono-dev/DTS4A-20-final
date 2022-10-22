@@ -1,21 +1,17 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  Box,
   TextField,
   Button,
   Typography,
   Alert,
   Paper,
 } from '@mui/material';
-import { auth, doLogin } from '../auth/firebase';
+import { doLogin } from '../auth/firebase';
 import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../constant/routes';
-// import { auth } from "../reducers/authReducer";
+import { useDispatch, useSelector } from 'react-redux';
+import { userLogin } from '../reducers/authReducer'
 
-import { useSelector } from 'react-redux';
-import { async } from '@firebase/util';
-// import auth from "../auth/firebase";
-// import { useAuthState } from "react-firebase-hooks/auth";
 const defaultUser = {
   email: '',
   password: '',
@@ -46,15 +42,16 @@ const loginBoxStye = {
 
 function Login(props) {
   const [user, setUser] = useState(defaultUser);
-  const { is_authenticated } = useSelector((state) => state.auth);
   const [modal, setModal] = useState(false);
+  const userAuth = useSelector( state => state.auth.user);
+  const dispatch = useDispatch();
 
   let navigate = useNavigate();
   const handleLogin = async (e) => {
     e.preventDefault();
-    let verifiedUser = await doLogin(user.email, user.password);
-    if (verifiedUser?.accessToken) {
-      // save to persist
+    let resp = await doLogin(user.email, user.password);
+    if (resp.msg === "ok") {
+      dispatch(userLogin(resp.user));
       navigate('/');
     } else {
       setModal(true);
@@ -65,8 +62,10 @@ function Login(props) {
   };
 
   useEffect(() => {
-    //checkuser here
-  }, []);
+      if(userAuth){
+       navigate("/")
+      }
+  }, [userAuth, navigate]);
 
   return (
     <>

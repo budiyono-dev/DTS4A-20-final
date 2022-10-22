@@ -1,8 +1,19 @@
-import { Box, Toolbar, List, CssBaseline, Typography, Divider, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import { ROUTES } from "../constant/routes";
+import {
+  Box,
+  CssBaseline,
+  Divider,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+  Typography
+} from "@mui/material";
+import {Link, useNavigate} from "react-router-dom";
 import * as React from "react";
-import { styled, useTheme } from "@mui/material/styles";
+import {styled, useTheme} from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -10,9 +21,11 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-import { MenuConstant } from "../constant/menuConstant";
+import {MenuConstant} from "../constant/menuConstant";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import { doLogout } from "../auth/firebase";
+import {doLogout} from "../auth/firebase";
+import {useDispatch} from "react-redux";
+import {userLogout} from "../reducers/authReducer";
 
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
@@ -78,11 +91,16 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== "open" 
   }),
 }));
 function Sidebar() {
+  const dispatch = useDispatch(state => state.auth.user);
   let navigate = useNavigate();
   const signOut = async () => {
     // Kita akan memanggil fungsi keluarDariApps di sini
-    await doLogout();
-    navigate("/login");
+    let resp = await doLogout();
+    console.log("logout dari sidebar")
+    if(resp.msg === "ok"){
+        dispatch(userLogout());
+        navigate("/login");
+    }
   };
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -94,7 +112,7 @@ function Sidebar() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  console.log(MenuConstant);
+//  console.log(MenuConstant);
   return (
     <>
       <Box sx={{ display: "flex" }}>

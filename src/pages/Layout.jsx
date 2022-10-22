@@ -1,7 +1,5 @@
 import { Box } from "@mui/material";
-import { Link, Outlet } from "react-router-dom";
-import { ROUTES } from "../constant/routes";
-// import Header from "./Header";
+import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 
 function Layout() {
