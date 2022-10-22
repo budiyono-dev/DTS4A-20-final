@@ -20,46 +20,37 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const doLogin = async (email, password) => {
-    
-    let user = "";
     try {
         const userCredential = await signInWithEmailAndPassword(
             auth,
             email,
             password
         );
-        console.log(userCredential);
-        user = userCredential.user;
-    //   navigate("/login")
-
+        return {msg: "ok" , user:userCredential.user};
     } catch (error) {
-        user=error.code
-        console.log("error login ", error.code, "==", error.message);
-        
+        return {msg: "error", code:error.code};
     }
-    return user;
 };
 const doRegister = async (email, password) => {
-    let user = "";
     try {
         const userCredential = await createUserWithEmailAndPassword(
             auth,
             email,
             password
         );
-        console.log(userCredential.user);
-        user = userCredential.user;
+        return {msg: "ok" , user:userCredential.user};
     } catch (error) {
-        console.log("error login ", error.code, "==", error.message);
+        return {msg: "error", code:error.code};;
     }
-    return user;
 };
 
 const doLogout = async () => {
     try {
         await signOut(auth);
+        let user = null;
+        return {msg: "ok", user};
     } catch (error) {
-        console.log(error);
+        return {msg: "error", code:error.code};
     }
 };
 

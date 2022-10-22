@@ -17,7 +17,7 @@ function App() {
       <Routes>
         {/* <Route path={ROUTES.HOME} element={<Layout />}> */}
         {/* <Route index element={<Home />} /> */}
-        <Route path={ROUTES.LOGIN} element={ <ProtectedComponent path={ROUTES.LOGIN}><Login /></ProtectedComponent>} />
+        <Route path={ROUTES.LOGIN} element={<Login />} />
         <Route path={ROUTES.REGISTER} element={<Register />} />
         <Route path={ROUTES.HOME} element={<Layout />}>
           <Route index element={<Home />} />
@@ -38,8 +38,8 @@ function App() {
               </ProtectedComponent>
             }
           />
-          <Route path="*" element={<NotFound />} />
         </Route>
+        <Route path="*" element={<NotFound />} />
 
         {/* <ProtectedRoute component={Main} /> */}
 
