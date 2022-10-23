@@ -23,8 +23,8 @@ const ProtectedComponent = ({ children, path }) => {
   useEffect(() => {
     // Di sini kita akan membuat logic, apabila user tidak ada (null), maka akan kita
     // "paksa" ke halaman login
-    console.log("user", user);
-    console.log("path", path === "/login");
+    // console.log("user", user);
+    // console.log("path", path === "/login");
 
     if (!user) {
       navigate("/login");
