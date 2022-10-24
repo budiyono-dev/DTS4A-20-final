@@ -1,18 +1,6 @@
-import {ROUTES} from "./routes"
-export const MenuConstant = [
-    {
-        id:1,
-        name:"Home",
-        route:ROUTES.HOME,
-    },
-    {
-        id:2,
-        name:"All News",
-        route:ROUTES.ALL_NEWS,
-    },
-    {
-        id:3,
-        name:"Top Stories",
-        route:ROUTES.TOP_STORIES,
-    }
-]
+import {Public,Science,SportsSoccer,Business,LocalHospital,Movie,Biotech,AssistantPhoto} from '@mui/icons-material';
+
+export const Cateories = ["General", "Science", "Sports", "Business", "Health", "Entertainment", "Tech", "Politics"];
+
+export const IconCategories =[<Public/>,<Science/>,<SportsSoccer/>,<Business/>,<LocalHospital/>,<Movie/>,<Biotech/>,<AssistantPhoto/>]
+

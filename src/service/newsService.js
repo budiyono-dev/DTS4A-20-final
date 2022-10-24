@@ -6,12 +6,12 @@ import { pageLoading } from '../reducers/pageReducer'
 // import { setTableLoading } from '../../../store/reducers/page.reducer'
 // import {checkValidationToken} from '../../../utils/errorHandler'
 
-export const getList = async (page, limit,dispatch, search) => {
+export const getList = async (page, limit,dispatch, search,categories) => {
   
   let result = {list: undefined, initiate: undefined, ok: false}
   
   const url = `${newsUrl}api_token=${apiKey}`
-  const params = {page, limit, search}
+  const params = {page, limit, search, categories}
   dispatch(pageLoading(true))
 
 
