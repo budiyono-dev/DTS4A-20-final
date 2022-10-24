@@ -1,6 +1,6 @@
 import { Box, CssBaseline, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import * as React from "react";
+import React, { useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
@@ -80,6 +80,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== "open" 
 }));
 function Sidebar() {
   const dispatch = useDispatch((state) => state.auth.user);
+  const [sideBarMenuItem, setSideBarMenuItem] = useState("Home");
   let navigate = useNavigate();
   const signOut = async () => {
     // Kita akan memanggil fungsi keluarDariApps di sini
@@ -120,7 +121,7 @@ function Sidebar() {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" noWrap component="div">
-              News Update
+              {sideBarMenuItem}
             </Typography>
             <Box sx={{ display: "flex", width: "85%", justifyContent: "flex-end", cursor: "pointer" }} onClick={signOut}>
               <ExitToAppIcon />
@@ -135,7 +136,7 @@ function Sidebar() {
           <Divider />
           <List>
             {MenuConstant.map((text, index) => (
-              <ListItem key={index} disablePadding sx={{ display: "block" }}>
+              <ListItem key={index} disablePadding sx={{ display: "block" }} onClick={()=>setSideBarMenuItem(text.name)}>
                 <Link to={text.route} style={{ textDecoration: "none", color: "black" }}>
                   <ListItemButton
                     sx={{
@@ -160,9 +161,9 @@ function Sidebar() {
             ))}
           </List>
         </Drawer>
-        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        {/* <Box component="main" sx={{ flexGrow: 1, p: 3 }}> */}
           {/* <DrawerHeader /> */}
-        </Box>
+        {/* </Box> */}
       </Box>
       {/* <Sidebar /> */}
       {/* <Outlet /> */}
