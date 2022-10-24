@@ -5,4 +5,9 @@ const doGet = ( url, params) => {
   return axios({url, method, params})
 }
 
-export { doGet }
+const doGetUUID = ( url) => {
+  const method = 'GET'
+  return axios({url, method})
+}
+
+export { doGet,doGetUUID }

@@ -10,6 +10,7 @@ import Register from "./pages/Register";
 import TopStories from "./pages/TopStories";
 // import Main from "./Main";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import DetailAllNews from "./pages/DetailAllNews";
 
 function App() {
   return (
@@ -35,6 +36,16 @@ function App() {
             element={
               <ProtectedComponent path={ROUTES.ALL_NEWS}>
                 <AllNews />
+              </ProtectedComponent>
+            }
+          />
+          <Route
+            // path={`${ROUTES.DETAIL_NEWS}/:uuid`}
+            path={"/allnews/detail/:uuid"}
+
+            element={
+              <ProtectedComponent >
+                <DetailAllNews />
               </ProtectedComponent>
             }
           />
