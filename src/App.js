@@ -8,35 +8,31 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
 import TopStories from "./pages/TopStories";
-// import Main from "./Main";
-import { ProtectedRoute } from "./components/ProtectedRoute";
 import DetailAllNews from "./pages/DetailAllNews";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route path={ROUTES.HOME} element={<Layout />}> */}
-        {/* <Route index element={<Home />} /> */}
         <Route exact path={ROUTES.LOGIN} element={<Login />} />
         <Route exact path={ROUTES.REGISTER} element={<Register />} />
         <Route exact path={ROUTES.HOME} element={<Layout />}>
           <Route exact index element={<Home />} />
           <Route
-          exact
+            exact
             path={ROUTES.TOP_STORIES}
             element={
-              <ProtectedComponent path={ROUTES.TOP_STORIES}>
+              <ProtectedComponent>
                 <TopStories />
               </ProtectedComponent>
             }
           />
-          <Route exact path={ROUTES.HOME} element={<Home />}  />
+          <Route exact path={ROUTES.HOME} element={<Home />} />
           <Route
-          exact
+            exact
             path={ROUTES.ALL_NEWS}
             element={
-              <ProtectedComponent path={ROUTES.ALL_NEWS}>
+              <ProtectedComponent>
                 <AllNews />
               </ProtectedComponent>
             }
@@ -53,26 +49,7 @@ function App() {
           />
         </Route>
         <Route path="*" element={<NotFound />} />
-
-        {/* <ProtectedRoute component={Main} /> */}
-
-        {/* <ProtectedComponent com>
-
-        </ProtectedComponent> */}
-        {/* <Route path={ROUTES.HOME} element={<Main />} /> */}
-
-        {/* <Route path={ROUTES.TOP_STORIES} element={<TopStories />} />
-          <Route path={ROUTES.ALL_NEWS} element={<AllNews />} /> */}
-        {/* <Route
-          path="/"
-          element={
-            <ProtectedComponent>
-              <Main />
-            </ProtectedComponent>
-          }
-        /> */}
         <Route path="*" element={<NotFound />} />
-        {/* </Route> */}
       </Routes>
     </BrowserRouter>
   );

@@ -10,6 +10,7 @@ import { Cateories, IconCategories } from '../constant/propertiesConstant';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 import { pageLoading } from '../reducers/pageReducer';
+import { ROUTES } from "../constant/routes";
 
 const AntTabs = styled(Tabs)({
   borderBottom: "1px solid #e8e8e8",
@@ -107,6 +108,11 @@ function TopStories() {
     getStories();
   }
 
+  const handleDetail = (uuid) => {
+    console.log(uuid);
+    navigate(`${ROUTES.DETAIL_NEWS}/${uuid}`);
+  };
+
   useEffect(() => {
     const fetchTopNews = async () => {
       dispatch(pageLoading(true));
@@ -203,10 +209,9 @@ function TopStories() {
                         </CardContent>
                         <CardActions sx={{ height: '10%' }}>
                           <Link
-                            href={item.url}
                             underline="hover"
-                            rel="noopener noreferrer"
-                            target="_blank"
+                            
+                            onClick={()=>handleDetail(item.uuid)}
                           >
                             {'See More'}
                           </Link>

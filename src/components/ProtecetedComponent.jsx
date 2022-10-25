@@ -11,29 +11,23 @@ import { useAuthState } from "react-firebase-hooks/auth";
 
 // Untuk bisa menggunakan useAuthState, kita membutuhkan auth dari authentication/firebase
 import { auth } from "../auth/firebase";
+import { useSelector } from "react-redux";
 
 // Karena di sini akan nge-slot, maka harus menerima props children
-const ProtectedComponent = ({ children, path }) => {
+const ProtectedComponent = ({ children }) => {
+  const authUser = useSelector((state) => state.auth.user);
   // Kita gunakan hooksnya di sini
   const navigate = useNavigate();
 
   // Karena di sini kita hanya mengecek dari user, kita hanya gunakan [user] saja
-  const [user, isLoading] = useAuthState(auth);
+  const [isLoading] = useAuthState(auth);
 
   useEffect(() => {
-    // Di sini kita akan membuat logic, apabila user tidak ada (null), maka akan kita
-    // "paksa" ke halaman login
-    // console.log("user", user);
-    // console.log("path", path === "/login");
 
-    if (!user) {
+    if (!authUser) {
       navigate("/login");
-      return;
-    } else if (path !== "/login" && user) {
-      // navigate(path);
-      return;
-    }
-  }, [user, navigate]);
+    } 
+  }, [authUser, navigate]);
 
   // Apabila kondisinya masih dalam tahap loading, kita berikan halaman kosong
   if (isLoading) {
