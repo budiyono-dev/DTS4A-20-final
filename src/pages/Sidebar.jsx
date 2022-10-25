@@ -14,7 +14,7 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { doLogout } from "../auth/firebase";
 import { useDispatch } from "react-redux";
 import { userLogout } from "../reducers/authReducer";
-
+import { ModalConfirm } from "../components/ModalConfirm";
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -80,10 +80,12 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== "open" 
 }));
 function Sidebar() {
   const dispatch = useDispatch((state) => state.auth.user);
+  const [modal, setModal] = React.useState(false);
   const [sideBarMenuItem, setSideBarMenuItem] = useState("Home");
   let navigate = useNavigate();
   const signOut = async () => {
     // Kita akan memanggil fungsi keluarDariApps di sini
+    setModal(false);
     let resp = await doLogout();
     console.log("logout dari sidebar");
     if (resp.msg === "ok") {
@@ -102,10 +104,15 @@ function Sidebar() {
     setOpen(false);
   };
 
+  const handleModal = () => {
+    setModal(!modal);
+  };
+
   return (
     <>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
+        <ModalConfirm open={modal} handleClose={handleModal} handleLogut={signOut} />
         <AppBar position="fixed" open={open}>
           <Toolbar>
             <IconButton
@@ -123,7 +130,7 @@ function Sidebar() {
             <Typography variant="h6" noWrap component="div">
               {sideBarMenuItem}
             </Typography>
-            <Box sx={{ display: "flex", width: "85%", justifyContent: "flex-end", cursor: "pointer" }} onClick={signOut}>
+            <Box sx={{ display: "flex", width: "85%", justifyContent: "flex-end", cursor: "pointer" }} onClick={handleModal}>
               <ExitToAppIcon />
               Logout
             </Box>
@@ -136,7 +143,7 @@ function Sidebar() {
           <Divider />
           <List>
             {MenuConstant.map((text, index) => (
-              <ListItem key={index} disablePadding sx={{ display: "block" }} onClick={()=>setSideBarMenuItem(text.name)}>
+              <ListItem key={index} disablePadding sx={{ display: "block" }} onClick={() => setSideBarMenuItem(text.name)}>
                 <Link to={text.route} style={{ textDecoration: "none", color: "black" }}>
                   <ListItemButton
                     sx={{
@@ -162,7 +169,7 @@ function Sidebar() {
           </List>
         </Drawer>
         {/* <Box component="main" sx={{ flexGrow: 1, p: 3 }}> */}
-          {/* <DrawerHeader /> */}
+        {/* <DrawerHeader /> */}
         {/* </Box> */}
       </Box>
       {/* <Sidebar /> */}

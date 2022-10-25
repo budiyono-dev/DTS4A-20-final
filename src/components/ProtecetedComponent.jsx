@@ -30,7 +30,7 @@ const ProtectedComponent = ({ children, path }) => {
       navigate("/login");
       return;
     } else if (path !== "/login" && user) {
-      navigate(path);
+      // navigate(path);
       return;
     }
   }, [user, navigate]);
