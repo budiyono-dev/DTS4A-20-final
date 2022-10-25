@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 
 import React, { useEffect } from "react";
-import { getDataFromDatabase, writeUserData } from "../auth/firebase";
+import { getDataFromDatabase } from "../auth/firebase";
 
 function Home() {
   useEffect(() => {
