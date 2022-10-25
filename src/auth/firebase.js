@@ -1,4 +1,5 @@
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { child, get, getDatabase, onValue, ref, set } from "firebase/database";
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
@@ -13,6 +14,7 @@ const firebaseConfig = {
     storageBucket: 'pelatihan-kominfo-react.appspot.com',
     messagingSenderId: '65919384767',
     appId: '1:65919384767:web:1e4df85c76801337e59a0a',
+    databaseURL: "https://pelatihan-kominfo-react-default-rtdb.asia-southeast1.firebasedatabase.app/",
 };
 
 // Initialize Firebase
@@ -26,9 +28,9 @@ const doLogin = async (userEmail, password) => {
             password
         );
         const { displayName, email, phoneNumber, photoURL } = userCredential.user;
-        return {msg: "ok" , user:{ displayName, email, phoneNumber, photoURL }};
+        return { msg: "ok", user: { displayName, email, phoneNumber, photoURL } };
     } catch (error) {
-        return {msg: "error", code:error.code};
+        return { msg: "error", code: error.code };
     }
 };
 const doRegister = async (userEmail, password) => {
@@ -39,20 +41,41 @@ const doRegister = async (userEmail, password) => {
             password
         );
         const { displayName, email, phoneNumber, photoURL } = userCredential.user;
-        return {msg: "ok" , user:{ displayName, email, phoneNumber, photoURL }};
+        return { msg: "ok", user: { displayName, email, phoneNumber, photoURL } };
     } catch (error) {
         console.log("errorrrrr")
-        return {msg: "error", code:error.code};
+        return { msg: "error", code: error.code };
     }
 };
 
 const doLogout = async () => {
     try {
         await signOut(auth);
-        return {msg: "ok", code: null};
+        return { msg: "ok", code: null };
     } catch (error) {
-        return {msg: "error", code:error.code};
+        return { msg: "error", code: error.code };
     }
 };
+
+export function writeUserData(userId, name, email, imageUrl) {
+    console.log("writedata");
+    const db = getDatabase();
+    set(ref(db, '/' ), {
+        username: name,
+        email: email,
+        profile_picture: imageUrl
+    });
+};
+export function getDataFromDatabase() {
+    console.log("getData");
+    const getData = ref(getDatabase());
+    get(child(getData, "/")).then((snapshot) => {
+        if (snapshot.exists()) {
+            console.log(snapshot.val());
+        } else {
+            console.log("No data available");
+        }
+    });
+}
 
 export { auth, doLogin, doLogout, doRegister }
