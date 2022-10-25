@@ -20,14 +20,14 @@ const ProtectedComponent = ({ children }) => {
   const navigate = useNavigate();
 
   // Karena di sini kita hanya mengecek dari user, kita hanya gunakan [user] saja
-  const [isLoading] = useAuthState(auth);
+  const [user , isLoading] = useAuthState(auth);
 
   useEffect(() => {
 
-    if (!authUser) {
+    if (!authUser || !user) {
       navigate("/login");
     } 
-  }, [authUser, navigate]);
+  }, [authUser, user, navigate]);
 
   // Apabila kondisinya masih dalam tahap loading, kita berikan halaman kosong
   if (isLoading) {
