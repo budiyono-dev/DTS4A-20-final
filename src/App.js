@@ -18,11 +18,12 @@ function App() {
       <Routes>
         {/* <Route path={ROUTES.HOME} element={<Layout />}> */}
         {/* <Route index element={<Home />} /> */}
-        <Route path={ROUTES.LOGIN} element={<Login />} />
-        <Route path={ROUTES.REGISTER} element={<Register />} />
-        <Route path={ROUTES.HOME} element={<Layout />}>
-          <Route index element={<Home />} />
+        <Route exact path={ROUTES.LOGIN} element={<Login />} />
+        <Route exact path={ROUTES.REGISTER} element={<Register />} />
+        <Route exact path={ROUTES.HOME} element={<Layout />}>
+          <Route exact index element={<Home />} />
           <Route
+          exact
             path={ROUTES.TOP_STORIES}
             element={
               <ProtectedComponent path={ROUTES.TOP_STORIES}>
@@ -30,8 +31,9 @@ function App() {
               </ProtectedComponent>
             }
           />
-          <Route path={ROUTES.HOME} element={<Home />} exact />
+          <Route exact path={ROUTES.HOME} element={<Home />}  />
           <Route
+          exact
             path={ROUTES.ALL_NEWS}
             element={
               <ProtectedComponent path={ROUTES.ALL_NEWS}>
@@ -39,7 +41,7 @@ function App() {
               </ProtectedComponent>
             }
           />
-          <Route
+          <Route exact
             // path={`${ROUTES.DETAIL_NEWS}/:uuid`}
             path={"/allnews/detail/:uuid"}
 

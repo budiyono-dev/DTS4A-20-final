@@ -23,7 +23,8 @@ function AllNews() {
   const [language, setLanguage] = useState("en");
   const navigate = useNavigate();
 
-  const loading = useSelector((state) => state.auth.page.loading);
+  const loading = useSelector((state) => state.page.loading);
+
   let resetPage = 1;
   const AntTabs = styled(Tabs)({
     borderBottom: "1px solid #e8e8e8",
@@ -147,14 +148,14 @@ function AllNews() {
 
   return (
     <>
-      <Box>
+      <Box sx={{ padding: "2%" }}>
         <Typography variant="h5">All News</Typography>
         <Box>
           {loading ? (
             <LoadingComponent />
           ) : (
             <Box>
-              <Paper component="form" sx={{ m: "10px 0px", p: "2px 4px", display: "flex", alignItems: "center", width: 400 }}>
+              <Paper component="form" sx={{ m: "10px 0px", p: "2px 4px", display: "flex", alignItems: "center", width: 360 }}>
                 <InputBase
                   sx={{ ml: 1, flex: 1 }}
                   placeholder="Search News"

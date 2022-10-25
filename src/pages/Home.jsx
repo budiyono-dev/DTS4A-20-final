@@ -1,9 +1,11 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 function Home() {
   return (
     <>
-      <Typography variant="h5">Home page</Typography>
+      <Box sx={{ padding: "2%" }}>
+        <Typography variant="h5">Home page</Typography>
+      </Box>
     </>
   );
 }
