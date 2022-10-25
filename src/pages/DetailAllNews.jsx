@@ -31,11 +31,12 @@ function DetailAllNews() {
     const fetchData = async () => {
       dispatch(pageLoading(true));
       const response = await NewsService.getUUID(params.uuid);
-      if (response.list) {
+      // console.log("response", response)
+      if (response.response_success_mapping){
         setData(response.list);
-      }
-      if (response.response_error_mapping) {
+      } else {
         setMessage(response.response_error_mapping);
+
       }
       dispatch(pageLoading(true));
     };

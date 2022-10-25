@@ -24,7 +24,7 @@ const ProtectedComponent = ({ children }) => {
 
   useEffect(() => {
 
-    if (!authUser || !user) {
+    if (!authUser && !user) {
       navigate("/login");
     } 
   }, [authUser, user, navigate]);

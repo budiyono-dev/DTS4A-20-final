@@ -40,6 +40,7 @@ export const getUUID = async (uuid) => {
     if (response) {
       result.response_success_mapping = response.status;
       result.list = response.data;
+      return result;
     }
   } catch (error) {
     result.response_error_mapping = error.message;
