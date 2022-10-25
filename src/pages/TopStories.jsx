@@ -22,6 +22,8 @@ import * as NewsService from '../service/newsService';
 import SearchIcon from '@mui/icons-material/Search';
 import { Cateories, IconCategories } from '../constant/propertiesConstant';
 import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
+import { pageLoading } from '../reducers/pageReducer';
 
 const AntTabs = styled(Tabs)({
   borderBottom: '1px solid #e8e8e8',
@@ -69,13 +71,12 @@ const AntTab = styled((props) => <Tab disableRipple {...props} />)(
 function TopStories() {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(8);
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState(0);
   const [count, setCount] = useState(0);
-  const [domain, setDomain] = useState('');
   const loading = useSelector((state) => state.page.loading);
-
+  const userAuth = useSelector((state) => state.auth.user);
+  let navigate = useNavigate();
   let resetPage = 1;
 
   const dispatch = useDispatch();
@@ -84,11 +85,10 @@ function TopStories() {
     (async () => {
       const response = await NewsService.getTopStories(
         page,
-        limit,
-        dispatch,
         search,
         Cateories[category].toLowerCase()
       );
+      dispatch(pageLoading(true));
       console.log(response);
       if (response.ok) {
         setData(response.list);
@@ -96,6 +96,9 @@ function TopStories() {
           response.initiate.found / response.initiate.limit
         );
         setCount(count);
+        dispatch(pageLoading(false));
+      } else {
+        dispatch(pageLoading(false));
       }
     })();
   };
@@ -106,22 +109,45 @@ function TopStories() {
   };
 
   const handleChangeTab = (event, catIndex) => {
+    setSearch("")
     setPage(resetPage);
     setCategory(catIndex);
+    getStories();
   };
 
   const handleEnter = (event) => {
     event.preventDefault();
-    setSearch(event.target.value);
-
-    setPage(resetPage);
-    getStories();
+    searchStories();
   };
 
-  useEffect(() => {
-    // call the function
+  const searchStories = () =>{
+    setPage(resetPage);
     getStories();
-  }, []);
+  }
+
+  useEffect(() => {
+    const fetchTopNews = async () => {
+      dispatch(pageLoading(true));
+      console.log('fetch dari useeffect');
+      const response = await NewsService.getTopStories(1, '', 'general');
+      console.log('resp', response);
+      if (response.ok) {
+        dispatch(pageLoading(false));
+        setData(response.list);
+        let count = Math.ceil(
+          response.initiate.found / response.initiate.limit
+        );
+        setCount(count);
+      } else {
+        dispatch(pageLoading(false));
+      }
+    };
+    if (userAuth) {
+      fetchTopNews();
+    } else {
+      navigate('/login');
+    }
+  }, [navigate, userAuth, dispatch]);
 
   return (
     <>
@@ -151,7 +177,7 @@ function TopStories() {
                   inputProps={{ 'aria-label': `Search News` }}
                   onKeyPress={(e) => e.key === 'Enter' && handleEnter(e)}
                 />
-                <IconButton sx={{ p: '10px' }} aria-label="search">
+                <IconButton sx={{ p: '10px' }} aria-label="search" onClick={searchStories}>
                   <SearchIcon />
                 </IconButton>
               </Paper>
@@ -172,7 +198,7 @@ function TopStories() {
               <Grid container spacing={2}>
                 {data.length ? (
                   data.map((item, i) => (
-                    <Grid item xs={3}>
+                    <Grid item xs={3} sx={{ boxSizing: 'border-box' }} key={i}>
                       <Card
                         key={i}
                         sx={{
@@ -208,9 +234,7 @@ function TopStories() {
                               : item.description.substring(0, 100) + '...'}
                           </Typography>
                         </CardContent>
-                        <CardActions
-                          sx={{ marginTop: 'auto', marginBottom: '0px' }}
-                        >
+                        <CardActions sx={{ height: '10%' }}>
                           <Link
                             href={item.url}
                             underline="hover"
