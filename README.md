@@ -1,6 +1,6 @@
 # DTS REA4 Final Project PAIR 20
 
-Ketentuan lengkap bisa dilihat di [Final Project Guidelines](https://docs.google.com/document/d/122KyWNQ4xxU4aFwWbM4vIfH7LM4AH2CZEZa3YsEHjCk). 
+![](React-App-Google-Chrome-2022-10.gif)
 
 ## Link Live App
 [https://finalprojectdts4.netlify.app](https://finalprojectdts4.netlify.app)
