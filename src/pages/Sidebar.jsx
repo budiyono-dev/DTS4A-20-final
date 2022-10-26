@@ -7,8 +7,6 @@ import MuiAppBar from "@mui/material/AppBar";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import { MenuConstant } from "../constant/menuConstant";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { doLogout } from "../auth/firebase";
