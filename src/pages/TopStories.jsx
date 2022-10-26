@@ -92,7 +92,7 @@ function TopStories() {
   };
 
   const handleChangeTab = (event, catIndex) => {
-    setSearch("")
+    // setSearch("")
     setPage(resetPage);
     setCategory(catIndex);
     getStories();
