@@ -13,6 +13,9 @@ import { MenuConstant } from "../constant/menuConstant";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { doLogout } from "../auth/firebase";
 import { useDispatch } from "react-redux";
+import HomeIcon from "@mui/icons-material/Home";
+import NewspaperIcon from "@mui/icons-material/Newspaper";
+import FeedIcon from "@mui/icons-material/Feed";
 import { userLogout } from "../reducers/authReducer";
 import { ModalConfirm } from "../components/ModalConfirm";
 const drawerWidth = 240;
@@ -100,6 +103,8 @@ function Sidebar() {
     setOpen(true);
   };
 
+  const Icons = [<HomeIcon />, <NewspaperIcon />, <FeedIcon />];
+
   const handleDrawerClose = () => {
     setOpen(false);
   };
@@ -159,7 +164,8 @@ function Sidebar() {
                         justifyContent: "center",
                       }}
                     >
-                      {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                      {Icons[index]}
+                      {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
                     </ListItemIcon>
                     <ListItemText primary={text.name} sx={{ opacity: open ? 1 : 0 }} />
                   </ListItemButton>
