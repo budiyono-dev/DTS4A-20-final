@@ -23,6 +23,7 @@ function AllNews() {
   const loading = useSelector((state) => state.page.loading);
   const navigate = useNavigate();
   const language = "en";
+  const dispatch = useDispatch();
 
   let resetPage = 1;
   const AntTabs = styled(Tabs)({
@@ -64,11 +65,11 @@ function AllNews() {
       backgroundColor: "#d1eaff",
     },
   }));
-  const dispatch = useDispatch();
   const fetchData = async (page, limit, dispatch, search, categories, language) => {
     const response = await NewsService.getList(page, limit, dispatch, search, categories, language);
 
     if (response) {
+      // console.log(response);
       setData(response.list);
       let count = Math.ceil(response.initiate.found / response.initiate.limit);
       setCount(count);
@@ -76,10 +77,10 @@ function AllNews() {
   };
   useEffect(() => {
     // call the function
-    fetchData()
+    fetchData(1, 5, dispatch)
       // make sure to catch any error
       .catch(console.error);
-  }, []);
+  }, [dispatch]);
 
   const handlePagination = (event, value) => {
     setPage(value);
