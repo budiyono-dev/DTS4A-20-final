@@ -79,7 +79,7 @@ function AllNews() {
     fetchData(page, limit, dispatch, search, categories, language)
       // make sure to catch any error
       .catch(console.error);
-  }, []);
+  }, [data]);
 
   const handlePagination = (event, value) => {
     setPage(value);
@@ -213,20 +213,7 @@ function AllNews() {
                   </Typography>
                 )}
               </Grid>
-              {/* <ImageList sx={{ width: "100vw", height: 450 }} cols={5} rowHeight={164}>
-                {data.map((item, i) => (
-                  <ImageListItem key={i}>
-                    <img
-                      src={`${item.image_url}?w=164&h=164&fit=crop&auto=format`}
-                      srcSet={`${item.image_url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                      alt={i}
-                      loading="lazy"
-                    />
-                    <Typography variant="h6">{item.title}</Typography>
-                    <Typography variant="body2">{item.description}</Typography>
-                  </ImageListItem>
-                ))}
-              </ImageList> */}
+
               <Typography>Page: {page}</Typography>
               <Pagination count={count} page={page} onChange={handlePagination} />
             </Box>
