@@ -76,10 +76,10 @@ function AllNews() {
   };
   useEffect(() => {
     // call the function
-    fetchData(page, limit, dispatch, search, categories, language)
+    fetchData()
       // make sure to catch any error
       .catch(console.error);
-  }, [data]);
+  }, []);
 
   const handlePagination = (event, value) => {
     setPage(value);
