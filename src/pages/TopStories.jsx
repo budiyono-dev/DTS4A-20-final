@@ -109,7 +109,7 @@ function TopStories() {
   }
 
   const handleDetail = (uuid) => {
-    console.log(uuid);
+    
     navigate(`${ROUTES.DETAIL_NEWS}/${uuid}`);
   };
 

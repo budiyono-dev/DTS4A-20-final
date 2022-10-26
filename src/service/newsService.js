@@ -5,8 +5,9 @@ import { pageLoading } from "../reducers/pageReducer";
 // import { setTableLoading } from '../../../store/reducers/page.reducer'
 // import {checkValidationToken} from '../../../utils/errorHandler'
 
-export const getList = async (page, limit, dispatch, search, categories, language) => {
+export const getList = async (page, limit, dispatch, search, categories) => {
   let result = { list: undefined, initiate: undefined, ok: false };
+  let language = 'en';
 
   const url = `${newsUrl}api_token=${apiKey}`;
   const params = { page, limit, search, categories, language };

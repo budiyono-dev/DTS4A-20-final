@@ -1,4 +1,4 @@
-import { Card, CardActions, CardContent, CardMedia, IconButton, InputBase, Link, Pagination, Paper, Tab, Tabs, Typography } from "@mui/material";
+import { Card, CardActions, CardContent, CardMedia, Grid, IconButton, InputBase, Link, Pagination, Paper, Tab, Tabs, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,8 @@ import * as NewsService from "../service/newsService";
 import SearchIcon from "@mui/icons-material/Search";
 import { Cateories, IconCategories } from "../constant/propertiesConstant";
 import styled from "@emotion/styled";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../constant/routes";
 
 function AllNews() {
   const [data, setData] = useState([]);
@@ -17,7 +19,11 @@ function AllNews() {
   const [value, setValue] = useState(0);
   const [categories, setCategories] = useState("general");
   const [count, setCount] = useState(0);
-  const loading = useSelector((state) => state.auth.page.loading);
+
+  const loading = useSelector((state) => state.page.loading);
+  const navigate = useNavigate();
+  const language = "en";
+
   let resetPage = 1;
   const AntTabs = styled(Tabs)({
     borderBottom: "1px solid #e8e8e8",
@@ -59,8 +65,8 @@ function AllNews() {
     },
   }));
   const dispatch = useDispatch();
-  const fetchData = async (page, limit, dispatch, search, categories, filterDomain) => {
-    const response = await NewsService.getList(page, limit, dispatch, search, categories);
+  const fetchData = async (page, limit, dispatch, search, categories, language) => {
+    const response = await NewsService.getList(page, limit, dispatch, search, categories, language);
 
     if (response) {
       setData(response.list);
@@ -70,14 +76,14 @@ function AllNews() {
   };
   useEffect(() => {
     // call the function
-    fetchData(page, limit, dispatch, search, categories)
+    fetchData(page, limit, dispatch, search, categories, language)
       // make sure to catch any error
       .catch(console.error);
-  }, [page, limit, dispatch, search, categories]);
+  }, []);
 
   const handlePagination = (event, value) => {
     setPage(value);
-    fetchData(value, limit, dispatch, search, categories);
+    fetchData(value, limit, dispatch, search, categories, language);
   };
 
   const handleChangeTab = (event, newValue) => {
@@ -114,7 +120,7 @@ function AllNews() {
     setValue(newValue);
     setPage(resetPage);
     setCategories(result.toLowerCase());
-    fetchData(resetPage, limit, dispatch, search, result.toLowerCase());
+    fetchData(resetPage, limit, dispatch, search, result.toLowerCase(), language);
   };
 
   // const handleFitler = (event) => {
@@ -126,12 +132,15 @@ function AllNews() {
     setSearch(event.target.value);
 
     setPage(resetPage);
-    fetchData(resetPage, limit, dispatch, event.target.value, categories);
+    fetchData(resetPage, limit, dispatch, event.target.value, categories, language);
+  };
+  const handleDetail = (uuid) => {
+    navigate(`${ROUTES.DETAIL_NEWS}/${uuid}`);
   };
 
   return (
     <>
-      <Box>
+      <Box sx={{ padding: "2%" }}>
         <Typography variant="h5">All News</Typography>
         <Box>
           {loading ? (
@@ -156,40 +165,54 @@ function AllNews() {
                 {Cateories.map((item, index) => (
                   <AntTab key={index} icon={IconCategories[index]} iconPosition="start" label={item} />
                 ))}
-                {/* <Tab icon={<PhoneIcon />} iconPosition="end" label="end" />
-                <Tab icon={<PhoneMissedIcon />} iconPosition="end" label="end" />
-                <Tab icon={<FavoriteIcon />} iconPosition="end" label="end" />
-                <Tab icon={<PersonPinIcon />} iconPosition="end" label="end" /> */}
               </AntTabs>
-              <Box sx={{ display: "flex", margin: "20px 10px 20px 10px" }}>
+              <Grid container spacing={2}>
                 {data.length ? (
                   data.map((item, i) => (
-                    <Card key={i} sx={{ maxWidth: 345, marginRight: "10px" }}>
-                      <CardMedia component="img" alt={item.image_url} height="140" image={`${item.image_url}?w=164&h=164&fit=crop&auto=format`} />
-                      <CardContent>
-                        <Typography gutterBottom variant="h5" component="div">
-                          {item.title}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {item.description}
-                        </Typography>
-                      </CardContent>
-                      <CardActions>
-                        <Link href={item.url} underline="hover" rel="noopener noreferrer" target="_blank">
-                          {"See More"}
-                        </Link>
-
-                        {/* <Button size="small">Share</Button> */}
-                        {/* <Button size="small">Learn More</Button> */}
-                      </CardActions>
-                    </Card>
+                    <Grid item xs={3} sx={{ boxSizing: "border-box" }} key={i}>
+                      <Card
+                        key={i}
+                        sx={{
+                          // maxWidth: 345,
+                          width: "100%",
+                          boxSizing: "border-box",
+                          height: "32vw",
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "space-between",
+                          padding: "0px",
+                          boxShadow: 3,
+                          // backgroundColor: "tomato"
+                        }}
+                      >
+                        <CardMedia
+                          component="img"
+                          alt={item.image_url}
+                          sx={{ boxSizing: "border-box", height: "35%" }}
+                          image={`${item.image_url}?w=164&h=164&fit=crop&auto=format`}
+                        />
+                        <CardContent sx={{ boxSizing: "border-box", height: "55%" }}>
+                          <Typography gutterBottom variant="h6" component="div">
+                            {item.title.length <= 30 ? item.title : item.title.substring(0, 30) + "..."}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            {item.description.length <= 100 ? item.description : item.description.substring(0, 100) + "..."}
+                          </Typography>
+                        </CardContent>
+                        <CardActions sx={{ height: "10%" }}>
+                          <Link underline="hover" onClick={() => handleDetail(item.uuid)}>
+                            {"See More"}
+                          </Link>
+                        </CardActions>
+                      </Card>
+                    </Grid>
                   ))
                 ) : (
                   <Typography sx={{}} margin="20vh 30vw" width="20vw" variant="h4">
                     Data Not Found
                   </Typography>
                 )}
-              </Box>
+              </Grid>
               {/* <ImageList sx={{ width: "100vw", height: 450 }} cols={5} rowHeight={164}>
                 {data.map((item, i) => (
                   <ImageListItem key={i}>
